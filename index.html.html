@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marinsklt Банк</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+    header {
+      background: #004080;
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+    }
+    nav a, nav button {
+      margin-left: 20px;
+      color: #fff;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .hero {
+      background: linear-gradient(90deg, #004080, #0066cc);
+      color: #fff;
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .hero h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+    .hero button {
+      background: #fff;
+      color: #004080;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cards {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 0 20px;
+    }
+    .cards h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .card-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+    footer {
+      background: #004080;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    /* Модальне вікно */
+    .modal-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: none;
+    }
+    .modal {
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      width: 300px;
+    }
+    .modal h3 {
+      margin-top: 0;
+    }
+    .modal input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    .modal .actions {
+      display: flex;
+      justify-content: space-between;
+    }
+    .modal button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .login-btn {
+      background: #004080;
+      color: #fff;
+    }
+    .close-btn {
+      background: #ccc;
+      color: #000;
+    }
+  
+    .image-card {
+      position: relative;
+      width: 350px;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      font-family: 'Courier New', monospace;
+      margin: 0 auto;
+    }
+    .image-card .bank-name {
+      position: absolute;
+      top: 12px;
+      left: 16px;
+      font-weight: bold;
+      font-size: 16px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+    .image-card .card-number {
+      position: absolute;
+      bottom: 40px;
+      left: 16px;
+      font-size: 18px;
+      letter-spacing: 3px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+    .image-card .card-type {
+      position: absolute;
+      bottom: 12px;
+      left: 16px;
+      font-size: 14px;
+      font-weight: bold;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+  
+.card-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-slider .slides {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+.card-slider .card {
+  min-width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-slider .image-card {
+  margin: 0;
+}
+
+
+.card-slider {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.card-slider .image-card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+</style>
+
+<style>
+.logo {
+  width: 40px;
+  height: 40px;
+  background: white;
+  color: #004080;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  margin-right: 10px;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+}
+</style>
+
+</head>
+<body>
+  <header><div class="header-left"><div class="logo">M</div><h1>Marinsklt Банк</h1></div>
+    <nav>
+      <a href="#home">Головна</a>
+      <a href="#cards">Картки</a>
+      <button onclick="openModal()">Вхід</button>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <h2>Ласкаво просимо до Marinsklt Bank</h2>
+    <p>Ваш сучасний онлайн-банк</p>
+    
+  </section>
+
+<section style="padding:40px; background:#f9f9f9; text-align:center;">
+  <h2 style="color:#004080; font-size:28px; margin-bottom:20px;">Чому саме Marinsklt Банк?</h2>
+  <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap;">
+    <div style="flex:1; min-width:220px; max-width:280px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <div style="font-size:40px;">💳</div>
+      <h3>Сучасні картки</h3>
+      <p>Швидке та зручне оформлення карток для будь-яких потреб.</p>
+    </div>
+    <div style="flex:1; min-width:220px; max-width:280px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <div style="font-size:40px;">📱</div>
+      <h3>Мобільний банк</h3>
+      <p>Керуйте рахунками просто зі свого смартфону у будь-який час.</p>
+    </div>
+    <div style="flex:1; min-width:220px; max-width:280px; background:white; padding:20px; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+      <div style="font-size:40px;">🔒</div>
+      <h3>Надійний захист</h3>
+      <p>Ваші гроші та дані завжди під охороною сучасних технологій.</p>
+    </div>
+  </div>
+</section>
+
+
+  <section class="cards" id="cards">
+    <h2>Наші картки</h2>
+  <!-- Кнопка замовлення над картками -->
+  <div style="text-align:center; margin-bottom: 30px;">
+    <a href="javascript:void(0)" onclick="openOrder()" 
+       style="display:inline-block; padding:12px 24px; background:#004080; color:#fff; 
+              border-radius:12px; text-decoration:none; font-weight:bold;">
+      Замовити
+    </a>
+  </div>
+
+    
+    
+
+<div class="card-slider" style="position:relative; max-width:400px; margin:0 auto; overflow:hidden;">
+  <div class="slides" style="display:flex; transition:transform 0.5s ease;">
+    <div class="card" style="min-width:100%; flex-shrink:0;">
+      <div class="image-card" style="background-image: url('5276521847925636124.jpg');">
+        <div class="bank-name">Marinsklt Bank</div>
+        <div class="card-number">4000 XXXX XXXX 1234</div>
+        <div class="card-type">Classic</div>
+      </div>
+    </div>
+    <div class="card" style="min-width:100%; flex-shrink:0;">
+      <div class="image-card" style="background-image: url('5276521847925636001.jpg');">
+        <div class="bank-name">Marinsklt Bank</div>
+        <div class="card-number">5000 XXXX XXXX 5678</div>
+        <div class="card-type">Premium</div>
+      </div>
+    </div>
+    <div class="card" style="min-width:100%; flex-shrink:0;">
+      <div class="image-card" style="background-image: url('5278522830239168779.jpg');">
+        <div class="bank-name">Marinsklt Bank</div>
+        <div class="card-number">6000 XXXX XXXX 2468</div>
+        <div class="card-type">Special</div>
+      </div>
+    </div>
+    <div class="card" style="min-width:100%; flex-shrink:0;">
+      <div class="image-card" style="background-image: url('5278522830239168778.jpg');">
+        <div class="bank-name">Marinsklt Bank</div>
+        <div class="card-number">7000 XXXX XXXX 1357</div>
+        <div class="card-type">Exclusive</div>
+      </div>
+    </div>
+  </div>
+  <button onclick="prevSlide()" style="position:absolute; top:50%; left:10px; transform:translateY(-50%); background:#004080; color:#fff; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer;">‹</button>
+  <button onclick="nextSlide()" style="position:absolute; top:50%; right:10px; transform:translateY(-50%); background:#004080; color:#fff; border:none; border-radius:50%; width:36px; height:36px; cursor:pointer;">›</button>
+</div>
+
+<script>
+  let currentSlide = 0;
+  function showSlide(index) {
+    const slides = document.querySelector('.slides');
+    const totalSlides = document.querySelectorAll('.slides .card').length;
+    if (index >= totalSlides) currentSlide = 0;
+    else if (index < 0) currentSlide = totalSlides - 1;
+    else currentSlide = index;
+    slides.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
+  }
+  function nextSlide() { showSlide(currentSlide + 1); }
+  function prevSlide() { showSlide(currentSlide - 1); }
+</script>
+
+
+</section>
+
+  
+
+  <!-- Модальне вікно для входу -->
+  <div class="modal-bg" id="loginModal">
+    <div class="modal">
+      <h3>Вхід до акаунту</h3>
+      <input type="email" placeholder="Ваша електронна пошта" required>
+      <input type="password" placeholder="Пароль" required>
+      <div class="actions">
+        <button class="login-btn" onclick="login()">Увійти</button>
+        <button class="close-btn" onclick="closeModal()">Закрити</button>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+
+
+  
+  <script>
+    const modal = document.getElementById("loginModal");
+    const nav = document.querySelector("nav");
+    let loggedIn = false;
+    let userEmail = "";
+
+    function openModal() {
+      modal.style.display = "flex";
+    }
+    function closeModal() {
+      modal.style.display = "none";
+    }
+    function login() {
+      const emailInput = modal.querySelector('input[type="email"]').value.trim();
+      const passwordInput = modal.querySelector('input[type="password"]').value.trim();
+      if (emailInput.includes("@") && passwordInput !== "") {
+        loggedIn = true;
+        userEmail = emailInput;
+        alert("Вітаємо, " + userEmail + "! Ви успішно увійшли.");
+        updateNav();
+        closeModal();
+      } else {
+        alert("Будь ласка, введіть правильну електронну пошту та пароль.");
+      }
+    }
+    function logout() {
+      loggedIn = false;
+      userEmail = "";
+      alert("Ви вийшли з акаунту.");
+      updateNav();
+    }
+    function updateNav() {
+      if (loggedIn) {
+        nav.innerHTML = '<a href="#home">Головна</a><a href="#cards">Картки</a>' +
+                        '<span style="margin-left:20px; color:#fff;">📧 ' + userEmail + '</span>' +
+                        '<button onclick="logout()">Вихід</button>';
+      } else {
+        nav.innerHTML = '<a href="#home">Головна</a><a href="#cards">Картки</a>' +
+                        '<button onclick="openModal()">Вхід</button>';
+      }
+    }
+    updateNav();
+    window.onload = function() {
+    const chatMessages = document.getElementById("chat-messages");
+    if (chatMessages) {
+      chatMessages.innerHTML += "<div><b>Бот:</b> Ласкаво просимо на сайт банку Marinsklt</div>";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  };
+</script>
+
+
+
+  <!-- Firebase SDK (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    // TODO: ВСТАВТЕ СВОЮ КОНФІГУРАЦІЮ З Firebase Console
+    // ВАЖЛИВО: замініть значення нижче на свої з "Проєктні налаштування" -> "Конфігурація для веб"
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Ініціалізація Firebase
+    if (!window.firebaseApp) {
+      window.firebaseApp = firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+
+    // Генеруємо/читаємо локальний анонімний ID користувача
+    function getUid() {
+      let uid = localStorage.getItem('anonUid');
+      if (!uid) {
+        uid = 'uid_' + Math.random().toString(36).slice(2) + Date.now().toString(36);
+        localStorage.setItem('anonUid', uid);
+      }
+      return uid;
+    }
+    const uid = getUid();
+
+    // Посилання на статус користувача
+    const userRef = db.ref('/status/' + uid);
+    const connectedRef = db.ref('.info/connected');
+
+    const isOfflineForDatabase = {
+      state: 'offline',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+      ua: navigator.userAgent
+    };
+    const isOnlineForDatabase = {
+      state: 'online',
+      last_changed: firebase.database.ServerValue.TIMESTAMP,
+      ua: navigator.userAgent
+    };
+
+    // Відстеження підключення та onDisconnect
+    connectedRef.on('value', (snap) => {
+      if (snap.val() === false) { return; }
+
+      userRef.onDisconnect().set(isOfflineForDatabase).then(() => {
+        userRef.set(isOnlineForDatabase);
+      });
+    });
+
+    // Невеликий бейдж "Online" (для перевірки на самому сайті)
+    (function addOnlineBadge(){
+      const badge = document.createElement('div');
+      badge.id = 'online-badge';
+      badge.style.position = 'fixed';
+      badge.style.left = '20px';
+      badge.style.bottom = '20px';
+      badge.style.background = '#16a34a';
+      badge.style.color = '#fff';
+      badge.style.padding = '8px 12px';
+      badge.style.borderRadius = '12px';
+      badge.style.fontSize = '14px';
+      badge.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
+      badge.textContent = 'Статус: online';
+      document.body.appendChild(badge);
+      window.addEventListener('beforeunload', () => {
+        // Позначимо офлайн при закритті вкладки (best-effort)
+        navigator.sendBeacon && navigator.sendBeacon(
+          (db && db.ref) ? db.ref('/status/' + uid).toString() : '',
+          '' // sendBeacon тут не працює напряму з Realtime DB — основне на onDisconnect
+        );
+      });
+    })();
+  </script>
+
+
+  <!-- Модальне вікно Замовлення -->
+  <div class="modal-bg" id="orderModal">
+    <div class="modal" style="width:400px; max-height:90vh; overflow-y:auto;">
+      <div class="container">
+    <h2>Оформлення замовлення</h2>
+    <form onsubmit="submitOrder(event)">
+      <label>Ім’я</label>
+      <input type="text" required>
+
+      <label>Електронна пошта</label>
+      <input type="email" required>
+
+      <label>Номер телефону</label>
+      <input type="tel" placeholder="+380XXXXXXXXX" required>
+
+      <label>Вибір картки</label>
+      <select required>
+        <option value="Classic">Classic</option>
+        <option value="Premium">Premium</option>
+      </select>
+
+      <label>Коментар</label>
+      <textarea rows="4"></textarea>
+
+      <button type="submit">Надіслати</button>
+    </form>
+  </div>
+      <div style="text-align:center; margin-top:10px;">
+        <button class="close-btn" onclick="closeOrder()">Закрити</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openOrder() {
+      document.getElementById("orderModal").style.display = "flex";
+    }
+    function closeOrder() {
+      document.getElementById("orderModal").style.display = "none";
+    }
+    function submitOrder(e) {
+      e.preventDefault();
+      alert("✅ Замовлення відправлене! Наш менеджер з вами зв’яжеться.");
+      closeOrder();
+    }
+  </script>
+
+
+
+
+
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,64,128, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(0,64,128, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,64,128, 0); }
+}
+#chat-button {
+  position:fixed; bottom:20px; right:20px;
+  width:80px; height:80px;
+  background:#004080; color:#fff;
+  border-radius:50%;
+  display:flex; justify-content:center; align-items:center;
+  font-size:32px; cursor:pointer;
+  animation: pulse 2s infinite;
+  z-index:1001;
+}
+</style>
+
+
+
+
+<style>
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,64,128, 0.7); }
+  70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(0,64,128, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,64,128, 0); }
+}
+#chat-button {
+  position:fixed; bottom:20px; right:20px;
+  width:80px; height:80px;
+  background:#004080; color:#fff;
+  border-radius:50%;
+  display:flex; justify-content:center; align-items:center;
+  font-size:32px; cursor:pointer;
+  animation: pulse 2s infinite;
+  z-index:1001;
+}
+#chat-badge {
+  position:absolute;
+  top:5px;
+  right:5px;
+  background:red;
+  color:white;
+  font-size:14px;
+  padding:2px 6px;
+  border-radius:50%;
+  display:none;
+}
+</style>
+
+<!-- Чат підтримки -->
+<div id="chat-button" onclick="openChat()" style="position:fixed;">
+  💬
+  <span id="chat-badge">0</span>
+</div>
+
+<div id="chat-box"
+     style="display:none; position:fixed; bottom:110px; right:20px; width:320px; background:#fff; border:1px solid #ccc; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.3); z-index:1002;">
+  <div style="background:#004080; color:#fff; padding:10px; border-top-left-radius:12px; border-top-right-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+    <span>Чат підтримки</span>
+    <button onclick="closeChat()" style="background:none; border:none; color:#fff; font-size:18px; cursor:pointer;">✖</button>
+  </div>
+  <div id="chat-messages" style="height:240px; overflow-y:auto; padding:10px; font-size:14px;"></div>
+  <div style="padding:8px; display:flex; gap:5px; border-top:1px solid #ccc;">
+    <input id="chat-input" type="text" placeholder="Напишіть повідомлення..."
+           style="flex:1; padding:6px; border-radius:6px; border:1px solid #ccc;"/>
+    <button onclick="sendMessage()" style="padding:6px 12px; background:#004080; color:#fff; border:none; border-radius:6px; cursor:pointer;">➤</button>
+  </div>
+</div>
+
+<script>
+  let unreadCount = 0;
+
+  function showBadge() {
+    const badge = document.getElementById("chat-badge");
+    unreadCount++;
+    badge.innerText = unreadCount;
+    badge.style.display = "block";
+  }
+
+  function clearBadge() {
+    unreadCount = 0;
+    const badge = document.getElementById("chat-badge");
+    badge.style.display = "none";
+  }
+
+  function openChat() {
+    document.getElementById("chat-box").style.display = "block";
+    document.getElementById("chat-button").style.display = "flex";
+    clearBadge();
+  }
+
+  function closeChat() {
+    document.getElementById("chat-box").style.display = "none";
+    document.getElementById("chat-button").style.display = "flex";
+  }
+
+  function sendMessage() {
+    const input = document.getElementById("chat-input");
+    const msg = input.value.trim();
+    if (msg !== "") {
+      const chatMessages = document.getElementById("chat-messages");
+      chatMessages.innerHTML += "<div><b>Ви:</b> " + msg + "</div>";
+      input.value = "";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      setTimeout(() => {
+        let botReply;
+        if (msg.toLowerCase().includes("проблема")) {
+          botReply = "<div><b>Бот:</b> Якщо у вас виникли проблеми — пишіть оператору: <a href='mailto:skritskrit96@gmail.com'>skritskrit96@gmail.com</a></div>";
+        } else {
+          botReply = "<div><b>Бот:</b> Дякуємо за повідомлення!</div>";
+        }
+        chatMessages.innerHTML += botReply;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        showBadge();
+      }, 800);
+    }
+  }
+
+  window.onload = function() {
+    const chatMessages = document.getElementById("chat-messages");
+    if (chatMessages) {
+      chatMessages.innerHTML += "<div><b>Бот:</b> Ласкаво просимо на сайт банку Marinsklt</div>";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      showBadge();
+    }
+  };
+</script>
+
+
+<section id="open-account" style="padding:40px; background:#eef5ff; text-align:center;">
+  
+<div style="text-align:center; margin-bottom:20px;">
+  <a href="#open-account" 
+     style="display:inline-block; padding:12px 24px; background:#004080; color:#fff; 
+            border-radius:12px; text-decoration:none; font-weight:bold; font-size:16px;">
+    Відкрити рахунок
+  </a>
+</div>
+<h2 style="color:#004080; font-size:26px; margin-bottom:20px;">Відкрити рахунок онлайн</h2>
+  <form id="accountForm" onsubmit="sendEmail(event)" style="max-width:400px; margin:0 auto; text-align:left; background:#fff; padding:20px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1);">
+    <label>Ваше ім'я:</label>
+    <input type="text" name="name" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:8px;">
+
+    <label>Email:</label>
+    <input type="email" name="email" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:8px;">
+
+    <label>Телефон:</label>
+    <input type="tel" name="phone" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:8px;">
+
+    <label>Тип рахунку:</label>
+    <select name="account_type" required style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:8px;">
+      <option value="saving">Ощадний</option>
+      <option value="credit">Кредитний</option>
+      <option value="business">Бізнес</option>
+    </select>
+
+    <button type="submit" style="width:100%; background:#004080; color:white; padding:12px; border:none; border-radius:8px; cursor:pointer; font-size:16px;">Відправити заявку</button>
+  </form>
+</section>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+<script>
+(function(){
+  emailjs.init("YOUR_PUBLIC_KEY"); // вставте свій Public Key з EmailJS
+})();
+
+function sendEmail(event) {
+  event.preventDefault();
+  emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', event.target)
+    .then(function() {
+      alert("✅ Заявку відправлено успішно!");
+      document.getElementById("accountForm").reset();
+    }, function(error) {
+      alert("❌ Помилка: " + JSON.stringify(error));
+    });
+}
+</script>
+
+<footer>
+    © 2025 Marinsklt Банк. Усі права захищені.
+  </footer>
+
+
+
+
+
+
+</body>
+</html>
